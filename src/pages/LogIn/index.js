@@ -1,5 +1,6 @@
-import React, {useState} from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
+import React , {useState} from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+
 import * as Animatable from 'react-native-animatable'
 import {useNavigation} from '@react-navigation/native'
 
@@ -8,48 +9,29 @@ import { yupResolver} from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 const schema = yup.object({
-    nome: yup.string().required("Infome seu nome"),
     email: yup.string().required("Informe seu Email"),
     senha: yup.string().min(6, "A senha deve ter pelo menos  6 digitos").required("Informe sua senha")
 })
 
-export default function SignIn(){
+export default function LogIn(){
+    const navigation = useNavigation();
 
     const { control, handleSubmit, formState: {errors}} = useForm({
         resolver: yupResolver(schema)
     })
 
-    function handleSignIn(data){
-       console.log(data)
+    function handleLogIn(data){
+        console.log(data)
     }
-    
     return(
         <View style={styles.container}>
             <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
-                <Text style={styles.message}>Cadastro</Text>
+                <Text style={styles.message}>Bem-vindo(a)</Text>
             </Animatable.View>
 
             <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-                <Text style={styles.title}>Nome completo</Text>
-                    <Controller
-                        control={control}
-                        name ="nome"
-                        render={({ field: {onChange, onBlur, value} }) => (
-                            <TextInput
-                            placeholder="Digite um nome.."
-                            style={[styles.input, {
-                                borderColor: errors.nome && '#ff375b'
-                            }]}
-                            onBlur = {onBlur}
-                            value = {value}
-                            onChangeText = {onChange}
-                            />
-                        )}
-                    />
-                    {errors.nome && <Text style={styles.labelError}>{errors.nome?.message}</Text>}
-
-                <Text style={styles.title}>E-mail</Text>
-                    <Controller
+                <Text style={styles.title}>Email</Text>
+                <Controller
                         control={control}
                         name ="email"
                         render={({ field: {onChange, onBlur, value} }) => (
@@ -67,7 +49,7 @@ export default function SignIn(){
                     {errors.email && <Text style={styles.labelError}>{errors.email?.message}</Text>}
 
                 <Text style={styles.title}>Senha</Text>
-                    <Controller
+                <Controller
                         control={control}
                         name ="senha"
                         render={({ field: {onChange, onBlur, value} }) => (
@@ -83,9 +65,14 @@ export default function SignIn(){
                             />
                         )}
                     />
-                    {errors.senha && <Text style={styles.labelError}>{errors.senha?.message}</Text>}            
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit(handleSignIn)}>
-                        <Text style={styles.buttonText}>Cadastrar</Text>
+                    {errors.senha && <Text style={styles.labelError}>{errors.senha?.message}</Text>}
+
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit(handleLogIn)}>
+                        <Text style={styles.buttonText}>Acessar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.buttonRegistro} onPress={() => navigation.navigate('Cadastro')}>
+                        <Text style={styles.registerText}>Não possui uma conta? Cadastre-se</Text>
                     </TouchableOpacity>
             </Animatable.View>
         </View>
@@ -138,6 +125,13 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 18,
         fontWeight: 'bold'
+    },
+    buttonRegistro:{
+        marginTop: 14,
+        alignSelf: 'center'
+    },
+    registerText:{
+        color: '#a1a1a1'
     },
     labelError:{
         alignSelf: 'flex-start',

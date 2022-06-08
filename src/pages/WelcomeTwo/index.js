@@ -32,7 +32,7 @@ export default function WelcomeTwo(){
 Os resultados serão mantidos em sigilo, sendo destinados apenas para fins científicos.</Text>
 
                 <TouchableOpacity style={styles.button}
-                onPress={() => navigation.navigate('SignIn')}>
+                onPress={() => navigation.navigate('LogIn')}>
                     <Text style={styles.textButton}>Acessar Agora</Text>
                 </TouchableOpacity>
             </Animatable.View>
